@@ -1,3 +1,3 @@
 import "core-js/stable"
 
-export { SimpleForm } from "./simpleForm"
+export { SimpleForm } from "./simple-form"
