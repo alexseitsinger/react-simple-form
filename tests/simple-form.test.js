@@ -122,7 +122,7 @@ describe("SimpleForm", () => {
     expect(fn).toHaveBeenCalled()
   })
 
-  it("should invoke onFinished after successful submission", () => {
+  it("should invoke onFormFinished after successful submission", () => {
     const fn = jest.fn()
     const { wrapper } = setup({
       onFormFinished: fn,
