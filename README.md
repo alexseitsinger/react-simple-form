@@ -18,11 +18,20 @@ function App(props){
       setFormSubmitted={props.setFormSubmitted}
       onFormSubmitted={props.onFormSubmitted}
       onFormCompleted={props.onFormCompleted}>
-      <SimpleInput
+      <SimpleInput 
         resetValue={""}
         inputType={"text"}
         inputName={"name"}
         inputPlaceholder={"Name..."}
+        minLength={8}
+        maxLength={24}
+        onSanitize={value => {
+          // Do some cleaning...
+          return value
+        }}
+        onDidSanitize={(oldValue, newValue) => {
+          // Do something each time there's a cleaning...
+        }}
         isInputEmpty={props.isNameFieldEmpty}
         setInputEmpty={props.setNameFieldEmpty}
         inputValue={props.nameFieldValue}
