@@ -1,3 +1,7 @@
+<a name="v0.2.1"></a>
+## [v0.2.1](https://github.com/alexseitsinger/react-simple-form/compare/v0.2.0...v0.2.1) (2019-11-25)
+
+
 <a name="v0.2.0"></a>
 ## [v0.2.0](https://github.com/alexseitsinger/react-simple-form/compare/v0.1.0...v0.2.0) (2019-11-25)
 
