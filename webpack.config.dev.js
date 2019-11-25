@@ -30,7 +30,7 @@ module.exports = {
         exclude: ["dependencies"],
       },
     }),
-  ]
+  ],
   resolve: {
     alias: {
       "tests": path.resolve("./tests"),
