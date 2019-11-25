@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 
 import * as actions from "./redux/actions"
-import { SimpleForm } from "@src/simple-form"
+import { SimpleForm } from "src/simple-form"
 
 export const App = ({
   onFormFinished,

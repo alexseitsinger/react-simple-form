@@ -16,12 +16,10 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [
-          path.resolve("./src"),
-        ],
-        use: "babel-loader"
-      }
-    ]
+        include: [path.resolve("./src")],
+        use: "babel-loader",
+      },
+    ],
   },
   optimization: {
     minimize: true,
@@ -35,15 +33,21 @@ module.exports = {
             comments: false,
           },
         },
-      })
+      }),
     ],
   },
   externals: [
     nodeExternals({
       modulesFromFile: {
         exclude: ["dependencies"],
-        include: ["devDependencies", "peerDependencies"]
-      }
-    })
-  ]
+        include: ["devDependencies", "peerDependencies"],
+      },
+    }),
+  ],
+  resolve: {
+    alias: {
+      "tests": path.resolve("./tests"),
+      "src": path.resolve("./src"),
+    },
+  },
 }

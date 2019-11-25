@@ -1,8 +1,8 @@
 import React from "react"
 import { SimpleInput } from "@alexseitsinger/react-simple-input"
 
-import setup from "@tests/setup"
-import { SimpleForm } from "@src"
+import setup from "tests/setup"
+import { SimpleForm } from "src"
 
 describe("SimpleForm", () => {
 
