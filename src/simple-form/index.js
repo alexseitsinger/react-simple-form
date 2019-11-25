@@ -1,6 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
-import _ from "underscore"
+import {
+  isFunction,
+  isObject,
+  uniqueId,
+} from "underscore"
 
 import {
   Form,
@@ -13,26 +17,6 @@ let lastFocusedForm
 let focusedForm
 const focusedFormFieldKeys = {}
 
-/**
- * A simple form.
- *
- * @param {object} props
- * @param {string} props.formName
- * @param {object} props.formStyle
- * @param {object} props.formFieldsStyle
- * @param {function} props.onFormSubmitted
- * @param {function} props.onFormCompleted
- * @param {object} props.submitButtonContainerStyle
- * @param {object} props.submitButtonStyle
- * @param {function} props.submitButtonBody
- * @param {function} props.renderSubmitButtonBody
- * @param {function|array} props.children
- * @param {function} props.onFormFieldsCompleted
- * @param {function} props.onFormFieldsValidated
- * @param {array} props.formFieldTypes
- * @param {object} props.formFieldStyle
- * @param {boolean} props.isResetWhenFinished
- */
 export class SimpleForm extends React.Component {
   static propTypes = {
     formName: PropTypes.string,
@@ -71,7 +55,7 @@ export class SimpleForm extends React.Component {
     onFormFinished: null,
     onPrepare: null,
     onFormSubmitted: null,
-    formName: `form_${_.uniqueId()}`,
+    formName: `form_${uniqueId()}`,
     formStyle: null,
     formFieldsStyle: null,
     formFieldStyle: null,
@@ -110,7 +94,7 @@ export class SimpleForm extends React.Component {
   areFormFieldsCompleted = () => {
     const { checkers } = this
     const { onFormFieldsCompleted } = this.props
-    if (_.isFunction(onFormFieldsCompleted)) {
+    if (isFunction(onFormFieldsCompleted)) {
       return onFormFieldsCompleted()
     }
 
@@ -125,7 +109,7 @@ export class SimpleForm extends React.Component {
   areFormFieldsValidated = () => {
     const { validators } = this
     const { onFormFieldsValidated } = this.props
-    if (_.isFunction(onFormFieldsValidated)) {
+    if (isFunction(onFormFieldsValidated)) {
       return onFormFieldsValidated(validators)
     }
     if (validators.length) {
@@ -140,7 +124,7 @@ export class SimpleForm extends React.Component {
       setFormSubmitted,
     } = this.props
 
-    if (_.isFunction(setFormSubmitted)) {
+    if (isFunction(setFormSubmitted)) {
       if (isFormSubmitted !== bool) {
         setFormSubmitted(bool)
       }
@@ -173,7 +157,7 @@ export class SimpleForm extends React.Component {
     this.setFormSubmitted(true)
 
     // Run our callbacks on submission
-    if (_.isFunction(onFormSubmitted)) {
+    if (isFunction(onFormSubmitted)) {
       onFormSubmitted()
     }
 
@@ -184,20 +168,20 @@ export class SimpleForm extends React.Component {
         // displaying for a second due to resetting the field values.
         this.setFormSubmitted(false)
         var prepared = this.evaluateFormFields()
-        if (_.isObject(includedData)) {
+        if (isObject(includedData)) {
           prepared = {
             ...prepared,
             ...includedData,
           }
         }
-        if (_.isFunction(onPrepare)) {
+        if (isFunction(onPrepare)) {
           prepared = onPrepare(prepared)
         }
         onFormCompleted(prepared)
         if (isResetWhenFinished === true) {
           this.resetFormFields()
         }
-        if (_.isFunction(onFormFinished)) {
+        if (isFunction(onFormFinished)) {
           onFormFinished()
         }
       }
@@ -217,7 +201,7 @@ export class SimpleForm extends React.Component {
     } = this.props
 
     var renderedSubmitButtonBody = submitButtonBody
-    if (_.isFunction(renderSubmitButtonBody)) {
+    if (isFunction(renderSubmitButtonBody)) {
       renderedSubmitButtonBody = renderSubmitButtonBody()
     }
 
@@ -287,7 +271,7 @@ export class SimpleForm extends React.Component {
       }
 
       return React.cloneElement(child, {
-        key: _.uniqueId(),
+        key: uniqueId(),
         containerStyle: formFieldStyle,
         isFormSubmitted,
         setFormSubmitted,
