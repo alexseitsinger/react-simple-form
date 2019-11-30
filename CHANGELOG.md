@@ -1,3 +1,10 @@
+<a name="v0.2.2"></a>
+## [v0.2.2](https://github.com/alexseitsinger/react-simple-form/compare/v0.2.1...v0.2.2) (2019-11-30)
+
+### Bug Fixes
+- Removes setFormSubmitted in submission. ([8185b39](https://github.com/alexseitsinger/react-simple-form/commit/8185b3979f6c5cc4b2b00c7ea176176c54a8506b))
+
+
 <a name="v0.2.1"></a>
 ## [v0.2.1](https://github.com/alexseitsinger/react-simple-form/compare/v0.2.0...v0.2.1) (2019-11-25)
 
