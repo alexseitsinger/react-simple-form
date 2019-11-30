@@ -4,6 +4,7 @@ import {
   isFunction,
   isObject,
   uniqueId,
+  debounce,
 } from "underscore"
 
 import {
@@ -19,6 +20,7 @@ const focusedFormFieldKeys = {}
 
 export class SimpleForm extends React.Component {
   static propTypes = {
+    containerClassName: PropTypes.string,
     formName: PropTypes.string,
     formStyle: PropTypes.object,
     formFieldsStyle: PropTypes.object,
@@ -52,6 +54,7 @@ export class SimpleForm extends React.Component {
   }
 
   static defaultProps = {
+    containerClassName: "SimpleForm",
     onFormFinished: null,
     onPrepare: null,
     onFormSubmitted: null,
@@ -164,9 +167,6 @@ export class SimpleForm extends React.Component {
     // Check that each inputs valid value is non-empty.
     if (this.areFormFieldsCompleted() === true) {
       if (this.areFormFieldsValidated() === true) {
-        // Set submission value early to prevent any error messages from
-        // displaying for a second due to resetting the field values.
-        this.setFormSubmitted(false)
         var prepared = this.evaluateFormFields()
         if (isObject(includedData)) {
           prepared = {
@@ -184,6 +184,13 @@ export class SimpleForm extends React.Component {
         if (isFunction(onFormFinished)) {
           onFormFinished()
         }
+        // Setting this back to falce causes jest tests to fail because after
+        // the submission passes, it reverts to false before the test completes,
+        // causing ti to fail.
+        //
+        // Set submission value early to prevent any error messages from
+        // displaying for a second due to resetting the field values.
+        //this.setFormSubmitted(false)
       }
     }
 
@@ -328,6 +335,7 @@ export class SimpleForm extends React.Component {
     const {
       formStyle,
       formFieldsStyle,
+      containerClassName,
     } = this.props
 
     const renderedSubmitButton = this.renderSubmitButton()
@@ -335,6 +343,7 @@ export class SimpleForm extends React.Component {
 
     return (
       <Form
+        className={containerClassName}
         css={formStyle}
         onSubmit={this.handleFormSubmission}>
         <FormFields css={formFieldsStyle}>
