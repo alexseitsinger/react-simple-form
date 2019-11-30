@@ -16,12 +16,10 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [
-          path.resolve("./src"),
-        ],
-        use: "babel-loader"
-      }
-    ]
+        include: [path.resolve("./src")],
+        use: "babel-loader",
+      },
+    ],
   },
   externals: [
     nodeExternals({
@@ -36,5 +34,5 @@ module.exports = {
       "tests": path.resolve("./tests"),
       "src": path.resolve("./src"),
     },
-  }
+  },
 }
