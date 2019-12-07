@@ -154,8 +154,6 @@ export class SimpleForm extends React.Component {
       event.preventDefault()
     }
 
-    // Get the DOM elements incase they are needed somewhere.
-
     // Run a function each time submit is invoked.
     this.setFormSubmitted(true)
 
