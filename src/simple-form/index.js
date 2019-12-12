@@ -6,6 +6,7 @@ import {
   uniqueId,
   debounce,
 } from "underscore"
+import classNames from "classnames"
 
 import {
   Form,
@@ -13,6 +14,9 @@ import {
   SubmitButtonContainer,
   SubmitButton,
 } from "./elements"
+
+const isDevelopment = (process.env.NODE_ENV === "development")
+const isTesting = (process.env.NODE_ENV === "test")
 
 let lastFocusedForm
 let focusedForm
@@ -338,10 +342,13 @@ export class SimpleForm extends React.Component {
 
     const renderedSubmitButton = this.renderSubmitButton()
     const renderedFormFields = this.renderFormFields()
+    const cls = classNames({
+      [containerClassName]: (isTesting || isDevelopment),
+    })
 
     return (
       <Form
-        className={containerClassName}
+        className={cls}
         css={formStyle}
         onSubmit={this.handleFormSubmission}>
         <FormFields css={formFieldsStyle}>
