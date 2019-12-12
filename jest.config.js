@@ -1,6 +1,9 @@
 const path = require("path")
 
 module.exports = {
+  globals: {
+    "process.env.NODE_ENV": "test",
+  },
   setupFiles: ["./jest.setup.js"],
   moduleDirectories: [
     path.resolve("./src"),
