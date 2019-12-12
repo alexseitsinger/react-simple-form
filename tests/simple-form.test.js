@@ -13,6 +13,11 @@ describe("SimpleForm", () => {
     expect(wrapper.find(SimpleForm).props().isFormSubmitted).toBe(true)
   })
 
+  it("should be selectable by classname in testing", () => {
+    const { wrapper } = setup()
+    expect(wrapper.find("form.SimpleForm")).toHaveLength(1)
+  })
+
   it("should set submission state to false at the end of a successful submission", () => {
 
   })
