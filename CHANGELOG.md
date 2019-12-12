@@ -1,3 +1,10 @@
+<a name="v1.0.0"></a>
+## [v1.0.0](https://github.com/alexseitsinger/react-simple-form/compare/v0.2.2...v1.0.0) (2019-12-12)
+
+### Features
+- Makes container class name conditional. ([1205abf](https://github.com/alexseitsinger/react-simple-form/commit/1205abf3b405c6f7345f5e00a261782c4916d2c8))
+
+
 <a name="v0.2.2"></a>
 ## [v0.2.2](https://github.com/alexseitsinger/react-simple-form/compare/v0.2.1...v0.2.2) (2019-11-30)
 
