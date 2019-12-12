@@ -11,10 +11,10 @@
   optionalDependencies:
     eslint-import-resolver-webpack "^0.11.1"
 
-"@alexseitsinger/eslint-config-react@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config-react/-/eslint-config-react-0.10.0.tgz#f91b146d7d05c406ac40395aef1f845eb92d177b"
-  integrity sha512-seF2rX9lYgWg8u6SddkEIYEm1hOR543aumwH818pXMJ8tNXK6aO7qqiMxkMJW+zXpuXdCqqdZn/6hiiIz+1lCg==
+"@alexseitsinger/eslint-config-react@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config-react/-/eslint-config-react-0.12.0.tgz#13f3e3a4be08361a60782cd242bfeaedbcd2543d"
+  integrity sha512-92QJfaik/1fwXlpPN5fTLQ3BcfP4TytfP0vniaFYi7HrKTy1Fr0cm2dJCbPjN7x2vtqtYRD51yOssp4dbf4RhQ==
 
 "@alexseitsinger/react-simple-input-error@^1.0.1":
   version "1.0.1"
@@ -2113,6 +2113,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
 clean-stack@^2.0.0:
   version "2.2.0"
