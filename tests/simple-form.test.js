@@ -5,7 +5,6 @@ import setup from "tests/setup"
 import { SimpleForm } from "src"
 
 describe("SimpleForm", () => {
-
   it("should set submission state to true when submission starts", () => {
     const { wrapper } = setup()
     expect(wrapper.find(SimpleForm).props().isFormSubmitted).toBe(false)
@@ -16,10 +15,6 @@ describe("SimpleForm", () => {
   it("should be selectable by classname in testing", () => {
     const { wrapper } = setup()
     expect(wrapper.find("form.SimpleForm")).toHaveLength(1)
-  })
-
-  it("should set submission state to false at the end of a successful submission", () => {
-
   })
 
   it("should have a checker for each field rendered", () => {
