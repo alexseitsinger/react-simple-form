@@ -1,3 +1,10 @@
+<a name="v2.0.0"></a>
+## [v2.0.0](https://github.com/alexseitsinger/react-simple-form/compare/v1.2.0...v2.0.0) (2019-12-13)
+
+### Features
+- Adds other simple components. ([6b05597](https://github.com/alexseitsinger/react-simple-form/commit/6b05597a9b27288b53bea79bd355dfe123f311cf))
+
+
 <a name="v1.2.0"></a>
 ## [v1.2.0](https://github.com/alexseitsinger/react-simple-form/compare/v1.1.0...v1.2.0) (2019-12-13)
 
