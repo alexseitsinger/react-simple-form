@@ -1,3 +1,10 @@
+<a name="v1.1.0"></a>
+## [v1.1.0](https://github.com/alexseitsinger/react-simple-form/compare/v1.0.0...v1.1.0) (2019-12-13)
+
+### Code Refactoring
+- Changes order or data. ([9761687](https://github.com/alexseitsinger/react-simple-form/commit/976168795d2ccc558090a1646e07a3247bab46e9))
+
+
 <a name="v1.0.0"></a>
 ## [v1.0.0](https://github.com/alexseitsinger/react-simple-form/compare/v0.2.2...v1.0.0) (2019-12-12)
 
