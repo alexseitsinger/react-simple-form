@@ -148,9 +148,11 @@ export class SimpleInput extends React.Component {
     onDidMount: PropTypes.func,
     inputEmptyErrorMessage: PropTypes.string,
     inputProps: inputPropsShape,
+    isOptional: PropTypes.bool,
   }
 
   static defaultProps = {
+    isOptional: false,
     inputProps: {},
     isFormSubmitted: false,
     setFormSubmitted: () => {},
@@ -334,6 +336,27 @@ export class SimpleInput extends React.Component {
   }
 
   /**
+   * Used to format the current inputValue to match the correct format for form
+   * submission.
+   *
+   * Used by evaluate()
+   */
+  getNormalizedValue = () => {
+    const {
+      onNormalize,
+    } = this.props
+
+    // Since the value that gets displayed in the browser is the inputValue
+    // prop, we should normalize this value instead of the DOM element's value.
+    var normalizedValue = this.getSanitizedValue()
+    if (isFunction(onNormalize)) {
+      normalizedValue = onNormalize(normalizedValue)
+    }
+
+    return normalizedValue
+  }
+
+  /**
    * Returns true/false if the current DOM element has a value after
    * sanitization.
    */
@@ -346,7 +369,7 @@ export class SimpleInput extends React.Component {
    * Returns true/false if the current sanitized value meets the minimum length
    * requirements.
    */
-  sanitizedValueMeetsMinLength = () => {
+  doesSanitizedValueMeetMinLength = () => {
     const { minLength } = this.props
     if (!minLength) {
       return true
@@ -359,13 +382,67 @@ export class SimpleInput extends React.Component {
    * Returns true/false if the current sanitized value meets the maximum length
    * requirements.
    */
-  sanitizedValueMeetsMaxLength = () => {
+  doesSanitizedValueMeetMaxLength = () => {
     const { maxLength } = this.props
     if (!maxLength) {
       return true
     }
     const value = this.getSanitizedValue()
     return (value.length <= maxLength)
+  }
+
+  /**
+   * Determines if the current sanitized value passes all the requirements for
+   * length, and content, etc. If it does not pass any check, it will display
+   * an error and set the validity to false.
+   */
+  doesSanitizedValueValidate = () => {
+    const {
+      inputType,
+      onValidate,
+      minLength,
+      minLengthErrorMessage,
+      maxLength,
+      maxLengthErrorMessage,
+    } = this.props
+
+    const value = this.getSanitizedValue()
+    const shouldFocusNext = false
+    const shouldFocusCurrent = false
+    const shouldFocusLast = false
+
+    if (inputType !== "file") {
+      if (this.doesSanitizedValueMeetMinLength(value) === false) {
+        const message = minLengthErrorMessage
+          ? minLengthErrorMessage
+          : `Must be ${minLength} characters or more`
+
+        this.handleSetErrorMessage(message, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
+        this.handleSetValueValid(false, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
+        return false
+      }
+
+      if (this.doesSanitizedValueMeetMaxLength(value) === false) {
+        const message = maxLengthErrorMessage
+          ? maxLengthErrorMessage
+          : `Must be ${maxLength} characters or less`
+        this.handleSetErrorMessage(message, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
+        this.handleSetValueValid(false, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
+        return false
+      }
+    }
+
+    if (isFunction(onValidate)) {
+      const message = onValidate(value)
+      if (message) {
+        this.handleSetErrorMessage(message, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
+        this.handleSetValueValid(false, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
+        return false
+      }
+    }
+
+    this.handleSetValueValid(true, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
+    return true
   }
 
   /**
@@ -659,81 +736,6 @@ export class SimpleInput extends React.Component {
         }
       }
     }
-  }
-
-  /**
-   * Determines if the current sanitized value passes all the requirements for
-   * length, and content, etc. If it does not pass any check, it will display
-   * an error and set the validity to false.
-   */
-  doesSanitizedValueValidate = () => {
-    const {
-      inputType,
-      onValidate,
-      minLength,
-      minLengthErrorMessage,
-      maxLength,
-      maxLengthErrorMessage,
-    } = this.props
-
-    const value = this.getSanitizedValue()
-    const shouldFocusNext = false
-    const shouldFocusCurrent = false
-    const shouldFocusLast = false
-
-    if (inputType !== "file") {
-      if (this.sanitizedValueMeetsMinLength(value) === false) {
-        const message = minLengthErrorMessage
-          ? minLengthErrorMessage
-          : `Must be ${minLength} characters or more`
-
-        this.handleSetErrorMessage(message, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
-        this.handleSetValueValid(false, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
-        return false
-      }
-
-      if (this.sanitizedValueMeetsMaxLength(value) === false) {
-        const message = maxLengthErrorMessage
-          ? maxLengthErrorMessage
-          : `Must be ${maxLength} characters or less`
-        this.handleSetErrorMessage(message, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
-        this.handleSetValueValid(false, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
-        return false
-      }
-    }
-
-    if (isFunction(onValidate)) {
-      const message = onValidate(value)
-      if (message) {
-        this.handleSetErrorMessage(message, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
-        this.handleSetValueValid(false, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
-        return false
-      }
-    }
-
-    this.handleSetValueValid(true, shouldFocusLast, shouldFocusCurrent, shouldFocusNext)
-    return true
-  }
-
-  /**
-   * Used to format the current inputValue to match the correct format for form
-   * submission.
-   *
-   * Used by evaluate()
-   */
-  getNormalizedValue = () => {
-    const {
-      onNormalize,
-    } = this.props
-
-    // Since the value that gets displayed in the browser is the inputValue
-    // prop, we should normalize this value instead of the DOM element's value.
-    var normalizedValue = this.getSanitizedValue()
-    if (isFunction(onNormalize)) {
-      normalizedValue = onNormalize(normalizedValue)
-    }
-
-    return normalizedValue
   }
 
   /**
