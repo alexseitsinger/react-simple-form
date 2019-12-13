@@ -1,3 +1,10 @@
+<a name="v2.0.1"></a>
+## [v2.0.1](https://github.com/alexseitsinger/react-simple-form/compare/v2.0.0...v2.0.1) (2019-12-13)
+
+### Code Refactoring
+- Updates imports. ([ee2b1de](https://github.com/alexseitsinger/react-simple-form/commit/ee2b1deb50664edf2f45cdea2fd6cbf49e4dd0bd))
+
+
 <a name="v2.0.0"></a>
 ## [v2.0.0](https://github.com/alexseitsinger/react-simple-form/compare/v1.2.0...v2.0.0) (2019-12-13)
 
