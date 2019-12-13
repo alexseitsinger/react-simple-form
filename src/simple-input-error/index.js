@@ -6,18 +6,18 @@ import {
   MessageContainer,
   Message,
   CaretContainer,
-  Caret
+  Caret,
 } from "./elements"
 
 const defaultContainerStyle = {
-  zIndex: 10
+  zIndex: 10,
 }
 const defaultCaretStyle = {}
 const defaultMessageStyle = {
   backgroundColor: "#FF0000",
   color: "#FFFFFF",
   padding: "0.333em",
-  borderRadius: "0.333em"
+  borderRadius: "0.333em",
 }
 
 SimpleInputError.propTypes = {
@@ -34,7 +34,7 @@ SimpleInputError.defaultProps = {
   containerStyle: {},
   messageStyle: {},
   caretStyle: {},
-  onClick: () => {}
+  onClick: () => {},
 }
 
 const getInitialCaretStyle = (backgroundColor, position) => {

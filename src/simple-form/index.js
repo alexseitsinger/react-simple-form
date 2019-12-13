@@ -4,7 +4,6 @@ import {
   isFunction,
   isObject,
   uniqueId,
-  debounce,
 } from "underscore"
 import classNames from "classnames"
 
@@ -171,7 +170,7 @@ export class SimpleForm extends React.Component {
       if (this.areFormFieldsValidated() === true) {
         const evaluated = this.evaluateFormFields()
         var prepared = {
-          ...evaluated
+          ...evaluated,
         }
         if (isObject(includedData)) {
           prepared = {

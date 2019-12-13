@@ -2,8 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { isFunction, uniqueId } from "underscore"
 
-import { SimpleInputError } from "src/simple-input-error"
-
+import { SimpleInputError } from "src"
 import { Container, Input } from "./elements"
 
 const inputPropsShape = PropTypes.shape({
