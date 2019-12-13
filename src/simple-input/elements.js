@@ -1,0 +1,11 @@
+import styled from "@emotion/styled"
+
+export const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+`
+
+export const Input = styled.input`
+  flex: 1 1 auto;
+`
