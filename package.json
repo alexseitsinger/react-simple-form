@@ -31,7 +31,7 @@
     "controlled"
   ],
   "devDependencies": {
-    "@alexseitsinger/eslint-config-base": "^0.20.0",
+    "@alexseitsinger/eslint-config-base": "^0.21.1",
     "@alexseitsinger/eslint-config-react": "^0.12.0",
     "@alexseitsinger/react-simple-input": "^4.13.0",
     "@alexseitsinger/stylelint-config": "^0.2.0",
