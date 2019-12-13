@@ -1,10 +1,10 @@
 import React from "react"
-import { SimpleInput } from "@alexseitsinger/react-simple-input"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 
+import { SimpleForm, SimpleInput } from "src"
+
 import * as actions from "./redux/actions"
-import { SimpleForm } from "src/simple-form"
 
 export const App = ({
   onFormFinished,

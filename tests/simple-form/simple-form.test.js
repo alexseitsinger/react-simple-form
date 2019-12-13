@@ -1,8 +1,8 @@
 import React from "react"
-import { SimpleInput } from "@alexseitsinger/react-simple-input"
 
-import setup from "tests/setup"
-import { SimpleForm } from "src"
+import { SimpleForm, SimpleInput } from "src"
+
+import setup from "./setup"
 
 describe("SimpleForm", () => {
   it("should set submission state to true when submission starts", () => {
