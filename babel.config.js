@@ -5,7 +5,10 @@ module.exports = {
       useBuiltIns: "entry",
     }],
     "@babel/preset-react",
-    "@emotion/babel-preset-css-prop",
+    ["@emotion/babel-preset-css-prop", {
+      autoLabel: (process.env.NODE_ENV !== "production"),
+      labelFormat: "[local]",
+    }],
   ],
   plugins: [
     "@babel/plugin-transform-runtime",
