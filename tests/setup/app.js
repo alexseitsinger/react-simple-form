@@ -18,7 +18,7 @@ export const App = ({
   ...restProps
 }) => (
   <SimpleForm
-    containerClassName={"SimpleForm"}
+    containerClassName={"SimpleFormOne"}
     includedData={includedData}
     onPrepare={onPrepare}
     renderSubmitButtonBody={renderSubmitButtonBody}

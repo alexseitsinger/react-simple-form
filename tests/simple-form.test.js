@@ -12,9 +12,33 @@ describe("SimpleForm", () => {
     expect(wrapper.find(SimpleForm).props().isFormSubmitted).toBe(true)
   })
 
+  it("should use included data plus form data", () => {
+    const fn = jest.fn()
+    const { wrapper } = setup({
+      onPrepare: fn,
+      includedData: {
+        keywordOne: "one",
+        keywordTwo: "two",
+      },
+    })
+
+    const inp = wrapper.find(SimpleInput)
+    inp.props().setInputValue("NAME_HERE")
+    inp.props().setInputEmpty(false)
+    inp.props().setValueValid(true)
+
+    wrapper.find(SimpleForm).instance().handleFormSubmission()
+
+    expect(fn).toHaveBeenCalledWith({
+      keywordOne: "one",
+      keywordTwo: "two",
+      name: "NAME_HERE",
+    })
+  })
+
   it("should be selectable by classname in testing", () => {
     const { wrapper } = setup()
-    expect(wrapper.find("form.SimpleForm")).toHaveLength(1)
+    expect(wrapper.find("form.SimpleFormOne")).toHaveLength(1)
   })
 
   it("should have a checker for each field rendered", () => {
