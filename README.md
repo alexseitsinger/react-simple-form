@@ -1,6 +1,6 @@
 ## SimpleForm
 
-A simple form.
+A simple form for simple inputs.
 
 ## Installation
 
