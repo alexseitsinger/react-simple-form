@@ -169,11 +169,14 @@ export class SimpleForm extends React.Component {
     // Check that each inputs valid value is non-empty.
     if (this.areFormFieldsCompleted() === true) {
       if (this.areFormFieldsValidated() === true) {
-        var prepared = this.evaluateFormFields()
+        const evaluated = this.evaluateFormFields()
+        var prepared = {
+          ...evaluated
+        }
         if (isObject(includedData)) {
           prepared = {
-            ...prepared,
             ...includedData,
+            ...prepared,
           }
         }
         if (isFunction(onPrepare)) {
