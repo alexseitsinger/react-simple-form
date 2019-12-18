@@ -1,3 +1,13 @@
+<a name="v3.0.0"></a>
+## [v3.0.0](https://github.com/alexseitsinger/react-simple-form/compare/v2.0.1...v3.0.0) (2019-12-18)
+
+### Code Refactoring
+- Renames methods, re-organizes order. ([767ce15](https://github.com/alexseitsinger/react-simple-form/commit/767ce159bcaa7ad5584da79e240ce23a74181822))
+
+### Features
+- Adds context. ([d1df48c](https://github.com/alexseitsinger/react-simple-form/commit/d1df48ce5783c53eeca4f3e5d6e747fc49ee7d66))
+
+
 <a name="v2.0.1"></a>
 ## [v2.0.1](https://github.com/alexseitsinger/react-simple-form/compare/v2.0.0...v2.0.1) (2019-12-13)
 
