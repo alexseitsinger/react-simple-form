@@ -17,6 +17,8 @@ import {
 const isDevelopment = (process.env.NODE_ENV === "development")
 const isTesting = (process.env.NODE_ENV === "test")
 
+export const Context = React.createContext({})
+
 let lastFocusedForm
 let focusedForm
 const focusedFormFieldKeys = {}
@@ -54,9 +56,15 @@ export class SimpleForm extends React.Component {
     onPrepare: PropTypes.func,
     onFormFinished: PropTypes.func,
     includedData: PropTypes.object,
+    isCheckingSkipped: PropTypes.bool,
+    isValidationSkipped: PropTypes.bool,
+    isSubmitButtonVisible: PropTypes.bool,
   }
 
   static defaultProps = {
+    isSubmitButtonVisible: true,
+    isValidationSkipped: false,
+    isCheckingSkipped: false,
     containerClassName: "SimpleForm",
     onFormFinished: null,
     onPrepare: null,
@@ -97,24 +105,31 @@ export class SimpleForm extends React.Component {
     this.setFormSubmitted(false)
   }
 
-  areFormFieldsCompleted = () => {
+  areFormFieldsChecked = () => {
     const { checkers } = this
-    const { onFormFieldsCompleted } = this.props
+    const {
+      onFormFieldsCompleted, isCheckingSkipped,
+    } = this.props
+    if (isCheckingSkipped === true) {
+      return true
+    }
+
     if (isFunction(onFormFieldsCompleted)) {
       return onFormFieldsCompleted()
     }
-
     if (checkers.length) {
       return checkers.map(f => f()).every(b => b === false)
     }
-
     console.log("Notice: Form submissions will always fail because the form fields didn't provide a checker method.")
     return false
   }
 
   areFormFieldsValidated = () => {
     const { validators } = this
-    const { onFormFieldsValidated } = this.props
+    const { onFormFieldsValidated, isValidationSkipped } = this.props
+    if (isValidationSkipped === true) {
+      return true
+    }
     if (isFunction(onFormFieldsValidated)) {
       return onFormFieldsValidated(validators)
     }
@@ -166,7 +181,7 @@ export class SimpleForm extends React.Component {
     }
 
     // Check that each inputs valid value is non-empty.
-    if (this.areFormFieldsCompleted() === true) {
+    if (this.areFormFieldsChecked() === true) {
       if (this.areFormFieldsValidated() === true) {
         const evaluated = this.evaluateFormFields()
         var prepared = {
@@ -209,7 +224,12 @@ export class SimpleForm extends React.Component {
       submitButtonStyle,
       submitButtonBody,
       renderSubmitButtonBody,
+      isSubmitButtonVisible,
     } = this.props
+
+    if (isSubmitButtonVisible === false) {
+      return null
+    }
 
     var renderedSubmitButtonBody = submitButtonBody
     if (isFunction(renderSubmitButtonBody)) {
@@ -246,6 +266,22 @@ export class SimpleForm extends React.Component {
     }
   }
 
+  addEvaluator = fn => this.addFormFieldMethod(this.evaluators, fn)
+
+  removeEvaluator = fn => this.removeFormFieldMethod(this.evaluators, fn)
+
+  addChecker = fn => this.addFormFieldMethod(this.checkers, fn)
+
+  removeChecker = fn => this.removeFormFieldMethod(this.checkers, fn)
+
+  addResetter = fn => this.addFormFieldMethod(this.resetters, fn)
+
+  removeResetter = fn => this.removeFormFieldMethod(this.resetters, fn)
+
+  addValidator = fn => this.addFormFieldMethod(this.validators, fn)
+
+  removeValidator = fn => this.removeFormFieldMethod(this.validators, fn)
+
   removeFormFieldMethod = (arr, func) => {
     const i = arr.indexOf(func)
     if (i > -1) {
@@ -262,102 +298,47 @@ export class SimpleForm extends React.Component {
     return data
   }
 
-  renderFormFields = () => {
-    const {
-      children,
-      formFieldStyle,
-      isFormSubmitted,
-      setFormSubmitted,
-      formName,
-    } = this.props
-
-    const isFormFocused = (focusedForm === formName)
-
-    return React.Children.map(children, (child, i) => {
-      const focusedKey = this.getFocusedKey()
-
-      var isCurrentInputFocused = false
-      if (isFormFocused === true) {
-        isCurrentInputFocused = (focusedKey === i)
-      }
-
-      return React.cloneElement(child, {
-        key: uniqueId(),
-        containerStyle: formFieldStyle,
-        isFormSubmitted,
-        setFormSubmitted,
-        setFormFocused: () => {
-          focusedForm = formName
-        },
-        isCurrentInputFocused,
-        setCurrentInputFocused: () => {
-          this.setFocusedKey(i)
-        },
-        setCurrentInputBlurred: () => {
-          this.setFocusedKey("")
-        },
-        setNextInputFocused: () => {
-          const nextInputKey = (i + 1)
-          this.setFocusedKey(nextInputKey)
-        },
-        setLastInputFocused: () => {
-          var lastInputKey = (i - 1)
-          if (lastInputKey < 0) {
-            lastInputKey = 0
-          }
-          this.setFocusedKey(lastInputKey)
-        },
-        addChecker: f => {
-          this.addFormFieldMethod(this.checkers, f)
-        },
-        removeChecker: f => {
-          this.removeFormFieldMethod(this.checkers, f)
-        },
-        addResetter: f => {
-          this.addFormFieldMethod(this.resetters, f)
-        },
-        removeResetter: f => {
-          this.removeFormFieldMethod(this.resetters, f)
-        },
-        addValidator: f => {
-          this.addFormFieldMethod(this.validators, f)
-        },
-        removeValidator: f => {
-          this.removeFormFieldMethod(this.validators, f)
-        },
-        addEvaluator: f => {
-          this.addFormFieldMethod(this.evaluators, f)
-        },
-        removeEvaluator: f => {
-          this.removeFormFieldMethod(this.evaluators, f)
-        },
-      })
-    })
-  }
-
   render() {
     const {
+      children,
       formStyle,
       formFieldsStyle,
       containerClassName,
+      isFormSubmitted,
     } = this.props
 
     const renderedSubmitButton = this.renderSubmitButton()
-    const renderedFormFields = this.renderFormFields()
+    //const renderedFormFields = this.renderFormFields()
     const cls = classNames({
       [containerClassName]: (isTesting || isDevelopment),
     })
 
+    const providedContext = {
+      addEvaluator: this.addEvaluator,
+      removeEvaluator: this.removeEvaluator,
+      addResetter: this.addResetter,
+      removeResetter: this.removeResetter,
+      addValidator: this.addValidator,
+      removeValidator: this.removeValidator,
+      addChecker: this.addChecker,
+      removeChecker: this.removeChecker,
+      isFormSubmitted: isFormSubmitted,
+      setFormSubmitted: this.setFormSubmitted,
+      handleFormSubmission: this.handleFormSubmission,
+    }
+
     return (
-      <Form
-        className={cls}
-        css={formStyle}
-        onSubmit={this.handleFormSubmission}>
-        <FormFields css={formFieldsStyle}>
-          {renderedFormFields}
-        </FormFields>
-        {renderedSubmitButton}
-      </Form>
+      <Context.Provider value={providedContext}>
+        <Form
+          className={cls}
+          css={formStyle}
+          onSubmit={this.handleFormSubmission}>
+          <FormFields css={formFieldsStyle}>
+            {children}
+          </FormFields>
+          {renderedSubmitButton}
+        </Form>
+      </Context.Provider>
     )
   }
 }
