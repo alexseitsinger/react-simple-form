@@ -1,11 +1,9 @@
 import React from "react"
 
 import { SimpleForm, SimpleInput, SimpleInputError } from "src"
-
 import setup from "./setup"
 
 describe("SimpleInput", () => {
-
   it("should render the empty field error message when the field has an empty sanitized value", () => {
     const { wrapper } = setup()
     wrapper.find(SimpleForm).instance().handleFormSubmission()
@@ -18,9 +16,7 @@ describe("SimpleInput", () => {
     const { wrapper } = setup({
       minLength: 5,
     })
-    wrapper.find(SimpleInput).instance().handleSetInputValue(
-      "Text", false, false, false,
-    )
+    wrapper.find(SimpleInput).childAt(0).instance().handleSetInputValue("Text")
     wrapper.find(SimpleForm).instance().handleFormSubmission()
     wrapper.update()
     expect(wrapper.find("div.SimpleInputError-Message").text()).toEqual("Must be 5 characters or more")
@@ -33,9 +29,7 @@ describe("SimpleInput", () => {
       maxLength: 4,
       maxLengthErrorMessage,
     })
-    wrapper.find(SimpleInput).instance().handleSetInputValue(
-      "Tests", false, false, false,
-    )
+    wrapper.find(SimpleInput).childAt(0).instance().handleSetInputValue("Tests")
     wrapper.find(SimpleForm).instance().handleFormSubmission()
     wrapper.update()
     expect(wrapper.find("div.SimpleInputError-Message").text()).toEqual(maxLengthErrorMessage)
@@ -46,7 +40,7 @@ describe("SimpleInput", () => {
     wrapper.find(SimpleForm).instance().handleFormSubmission()
     wrapper.update()
     expect(wrapper.find(SimpleForm).props().isFormSubmitted).toBe(true)
-    wrapper.find(SimpleInput).instance().handleInputChange()
+    wrapper.find(SimpleInput).childAt(0).instance().handleInputChange()
     wrapper.update()
     expect(wrapper.find(SimpleForm).props().isFormSubmitted).toBe(false)
   })
@@ -56,7 +50,7 @@ describe("SimpleInput", () => {
     wrapper.find(SimpleForm).instance().handleFormSubmission()
     wrapper.update()
     expect(wrapper.find(SimpleInputError)).toHaveLength(1)
-    wrapper.find(SimpleInput).instance().handleSetFormSubmitted(false)
+    wrapper.find(SimpleInput).childAt(0).instance().handleSetFormSubmitted(false)
     wrapper.update()
     expect(wrapper.find("div.SimpleInputError")).toHaveLength(0)
   })
@@ -68,6 +62,5 @@ describe("SimpleInput", () => {
   it("should save the sanitized value to the redux store when the field is blurred", () => {
 
   })
-
 })
 
