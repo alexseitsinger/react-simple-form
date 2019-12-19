@@ -309,7 +309,10 @@ export class SimpleInput extends React.Component {
 
   usesBooleanValue = () => {
     const { current } = this.inputRef
-    return (current.type === "checkbox")
+    if (current) {
+      return (current.type === "checkbox")
+    }
+    return false
   }
 
   /**
