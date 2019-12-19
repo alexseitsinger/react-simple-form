@@ -100,8 +100,8 @@ export class SimpleInput extends React.Component {
   static propTypes = {
     isFormSubmitted: PropTypes.bool,
     setFormSubmitted: PropTypes.func,
-    errorMessage: PropTypes.string.isRequired,
-    setErrorMessage: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
+    setErrorMessage: PropTypes.func,
     errorPosition: PropTypes.string,
     errorStyle: PropTypes.object,
     inputStyle: PropTypes.object,
@@ -157,6 +157,8 @@ export class SimpleInput extends React.Component {
   }
 
   static defaultProps = {
+    errorMessage: null,
+    setErrorMessage: null,
     isAutoSubmitted: false,
     isResetSkipped: false,
     isOptional: false,
@@ -362,7 +364,7 @@ export class SimpleInput extends React.Component {
    * sanitization.
    */
   hasSanitizedValue = () => {
-    if (this.usesBooleanValue()){
+    if (this.usesBooleanValue()) {
       return true
     }
     const value = this.getSanitizedValue()
@@ -414,9 +416,7 @@ export class SimpleInput extends React.Component {
 
     if (inputType !== ("checkbox" || "file")) {
       if (this.doesSanitizedValueMeetMinLength(value) === false) {
-        const message = minLengthErrorMessage
-          ? minLengthErrorMessage
-          : `Must be ${minLength} characters or more`
+        const message = minLengthErrorMessage || `Must be ${minLength} characters or more`
 
         this.handleSetErrorMessage(message)
         this.handleSetValueValid(false)
@@ -424,9 +424,7 @@ export class SimpleInput extends React.Component {
       }
 
       if (this.doesSanitizedValueMeetMaxLength(value) === false) {
-        const message = maxLengthErrorMessage
-          ? maxLengthErrorMessage
-          : `Must be ${maxLength} characters or less`
+        const message = maxLengthErrorMessage || `Must be ${maxLength} characters or less`
         this.handleSetErrorMessage(message)
         this.handleSetValueValid(false)
         return false
@@ -787,9 +785,7 @@ export class SimpleInput extends React.Component {
 
     var finalErrorMessage = errorMessage
     if (isInputEmpty === true) {
-      finalErrorMessage = inputEmptyErrorMessage
-        ? inputEmptyErrorMessage
-        : "This field is required"
+      finalErrorMessage = inputEmptyErrorMessage || "This field is required"
     }
 
     const renderedChild = (
