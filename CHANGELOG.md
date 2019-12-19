@@ -1,3 +1,13 @@
+<a name="v3.2.3"></a>
+## [v3.2.3](https://github.com/alexseitsinger/react-simple-form/compare/v3.2.2...v3.2.3) (2019-12-19)
+
+### Bug Fixes
+- Fixes error messages not being displayed. ([1217587](https://github.com/alexseitsinger/react-simple-form/commit/12175877d70e5687456f4d0cb265cfb407ba14a8))
+
+### Code Refactoring
+- Cleans up input. ([2a7205e](https://github.com/alexseitsinger/react-simple-form/commit/2a7205e69dba5e2da8a2745f1642e4ed4916f3df))
+
+
 <a name="v3.2.2"></a>
 ## [v3.2.2](https://github.com/alexseitsinger/react-simple-form/compare/v3.2.1...v3.2.2) (2019-12-19)
 
