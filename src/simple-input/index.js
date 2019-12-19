@@ -129,7 +129,6 @@ export class SimpleInput extends React.Component {
     setNextInputFocused: PropTypes.func,
     setLastInputFocused: PropTypes.func,
     renderInput: PropTypes.func,
-    renderError: PropTypes.func,
     addValidator: PropTypes.func,
     removeValidator: PropTypes.func,
     addResetter: PropTypes.func,
@@ -200,7 +199,6 @@ export class SimpleInput extends React.Component {
     onSanitize: null,
     onDidSanitize: null,
     renderInput: null,
-    renderError: null,
     addValidator: null,
     removeValidator: null,
     addResetter: null,
@@ -309,10 +307,7 @@ export class SimpleInput extends React.Component {
 
   usesBooleanValue = () => {
     const { current } = this.inputRef
-    if (current) {
-      return (current.type === "checkbox")
-    }
-    return false
+    return (current.type === "checkbox")
   }
 
   /**
@@ -659,10 +654,6 @@ export class SimpleInput extends React.Component {
       onCheck,
     } = this.props
 
-    if (this.usesBooleanValue()) {
-      return false
-    }
-
     if (isFunction(onCheck)) {
       return onCheck(this.getSanitizedValue())
     }
@@ -781,19 +772,17 @@ export class SimpleInput extends React.Component {
       errorPosition,
       errorStyle,
       errorMessage,
-      renderError,
       isFormSubmitted,
     } = this.props
 
-    if (this.usesBooleanValue() === true) {
-      return null
-    }
-
     const hasError = (
-      isInputEmpty === true || isValueValid === false
+      (isInputEmpty === true)
+      || (isValueValid === false)
     )
     const isErrorVisible = (
-      isFormSubmitted === true && hasError === true
+      (isFormSubmitted === true)
+      && (hasError === true)
+      && (this.usesBooleanValue() === false)
     )
 
     var finalErrorMessage = errorMessage
@@ -801,21 +790,14 @@ export class SimpleInput extends React.Component {
       finalErrorMessage = inputEmptyErrorMessage || "This field is required"
     }
 
-    const renderedChild = (
+    return isErrorVisible ? (
       <SimpleInputError
-        isVisible={isErrorVisible}
         position={errorPosition}
         onClick={this.handleClickError}
         message={finalErrorMessage}
         containerStyle={errorStyle}
       />
-    )
-
-    if (isFunction(renderError)) {
-      return renderError(renderedChild)
-    }
-
-    return renderedChild
+    ) : null
   }
 
   renderInput = () => {

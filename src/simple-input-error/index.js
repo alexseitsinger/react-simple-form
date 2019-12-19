@@ -21,7 +21,6 @@ const defaultMessageStyle = {
 }
 
 SimpleInputError.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
   position: PropTypes.string.isRequired,
   caretStyle: PropTypes.object,
@@ -75,7 +74,6 @@ const getInitialCaretStyle = (backgroundColor, position) => {
 }
 
 export function SimpleInputError({
-  isVisible,
   position,
   onClick,
   message,
@@ -89,7 +87,7 @@ export function SimpleInputError({
     position,
   )
 
-  return isVisible ? (
+  return (
     <Container
       className={"SimpleInputError"}
       position={position}
@@ -119,6 +117,6 @@ export function SimpleInputError({
         </Message>
       </MessageContainer>
     </Container>
-  ) : null
+  )
 }
 
