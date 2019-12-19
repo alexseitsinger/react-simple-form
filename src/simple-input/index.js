@@ -106,10 +106,14 @@ export class SimpleInput extends React.Component {
     errorStyle: PropTypes.object,
     inputStyle: PropTypes.object,
     inputPlaceholder: PropTypes.string,
-    inputValue: PropTypes.string.isRequired,
+    inputValue: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool,
+    ]).isRequired,
     setInputValue: PropTypes.func.isRequired,
-    isInputEmpty: PropTypes.bool.isRequired,
-    setInputEmpty: PropTypes.func.isRequired,
+    isInputEmpty: PropTypes.bool,
+    setInputEmpty: PropTypes.func,
     inputType: PropTypes.string,
     inputName: PropTypes.string,
     containerStyle: PropTypes.object,
@@ -157,6 +161,8 @@ export class SimpleInput extends React.Component {
   }
 
   static defaultProps = {
+    isInputEmpty: false,
+    setInputEmpty: null,
     errorMessage: null,
     setErrorMessage: null,
     isAutoSubmitted: false,
@@ -775,6 +781,10 @@ export class SimpleInput extends React.Component {
       renderError,
       isFormSubmitted,
     } = this.props
+
+    if (this.usesBooleanValue() === true) {
+      return null
+    }
 
     const hasError = (
       isInputEmpty === true || isValueValid === false
