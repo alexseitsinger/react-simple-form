@@ -1,3 +1,10 @@
+<a name="v3.2.0"></a>
+## [v3.2.0](https://github.com/alexseitsinger/react-simple-form/compare/v3.1.0...v3.2.0) (2019-12-19)
+
+### Code Refactoring
+- Adjustments for checkboxes. ([a8dfc79](https://github.com/alexseitsinger/react-simple-form/commit/a8dfc797556f3b815d6c54db370cf2d739afe965))
+
+
 <a name="v3.1.0"></a>
 ## [v3.1.0](https://github.com/alexseitsinger/react-simple-form/compare/v3.0.0...v3.1.0) (2019-12-19)
 
