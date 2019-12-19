@@ -12,10 +12,13 @@ export const setInputEmpty = bool => ({
   bool,
 })
 
-export const setInputValue = string => ({
-  type: actionTypes.VALUE,
-  string,
-})
+export const setInputValue = string => {
+  console.log("set value")
+  return ({
+    type: actionTypes.VALUE,
+    string,
+  })
+}
 
 export const setValueValid = bool => ({
   type: actionTypes.VALUE_VALID,
@@ -30,6 +33,4 @@ export const setErrorMessage = string => ({
 export const onFormFinished = () => dispatch => {}
 
 export const onFormSubmitted = () => dispatch => {}
-
-
 

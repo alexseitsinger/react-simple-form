@@ -12,6 +12,23 @@ describe("SimpleInput", () => {
     expect(wrapper.find("div.SimpleInputError-Message").text()).toEqual("This field is required")
   })
 
+  it("should display an error message when appropriate", () => {
+    const errorMessage = "This is an error message"
+    const { wrapper, store } = setup({
+      minLength: 0,
+      maxLength: 5,
+      errorMessage,
+      onValidate: () => errorMessage,
+    })
+
+    wrapper.find("input").instance().value = "Alex"
+    wrapper.find(SimpleInput).childAt(0).instance().updateInputValue()
+    wrapper.find(SimpleInput).childAt(0).instance().handleSetValueValid(false)
+    wrapper.find(SimpleForm).instance().handleFormSubmission()
+    wrapper.update()
+    expect(wrapper.find("div.SimpleInputError-Message").text()).toEqual(errorMessage)
+  })
+
   it("should render the min length error message when the field has a short sanitized value", () => {
     const { wrapper } = setup({
       minLength: 5,
