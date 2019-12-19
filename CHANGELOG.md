@@ -1,3 +1,10 @@
+<a name="v3.2.2"></a>
+## [v3.2.2](https://github.com/alexseitsinger/react-simple-form/compare/v3.2.1...v3.2.2) (2019-12-19)
+
+### Bug Fixes
+- Updates err component. ([9207453](https://github.com/alexseitsinger/react-simple-form/commit/9207453398b602bfd564bd438ef1d023958f98b8))
+
+
 <a name="v3.2.1"></a>
 ## [v3.2.1](https://github.com/alexseitsinger/react-simple-form/compare/v3.2.0...v3.2.1) (2019-12-19)
 
