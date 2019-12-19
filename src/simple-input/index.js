@@ -248,11 +248,11 @@ export class SimpleInput extends React.Component {
     // and updated. When this happens, we may have formFieldErrors displayed. In
     // order to remove these errors after a change occurs, we need to set
     // isFormSubmitted back to false.
-    const { inputValue } = this.props
+    //const { inputValue } = this.props
 
-    if (prevProps.inputValue !== inputValue) {
-      this.handleSetFormSubmitted(false)
-    }
+    //if (prevProps.inputValue !== inputValue) {
+    //this.handleSetFormSubmitted(false)
+    //}
   }
 
   componentWillUnmount() {
