@@ -223,12 +223,12 @@ export class SimpleInput extends React.Component {
     // Whenever this component gets mounted, we want to save a reference to
     // certain methods on the SImpleForm instance, so it can process the fields
     // when the form gets submitted.
-    addValidator(this.doesSanitizedValueValidate)
-    addResetter(this.resetInputValue)
+    addValidator(this.validate)
+    addResetter(this.reset)
     addEvaluator(this.evaluate)
-    addChecker(this.checkValueForEmptiness)
+    addChecker(this.check)
 
-    // Our Picture input field needs to resetInputValue the input field outside
+    // Our Picture input field needs to reset the input field outside
     // the normal flow. Since its a superset of this class, we need to pass the
     // instance method when this gets mounted so it can use it when its ready.
     if (isFunction(onDidMount)) {
@@ -266,10 +266,10 @@ export class SimpleInput extends React.Component {
     // Once this component gets unmounted, we want to remove the references to
     // the old, stale instance methods on the parent SimpleForm to prevent
     // memory leaks.
-    removeValidator(this.doesSanitizedValueValidate)
-    removeResetter(this.resetInputValue)
+    removeValidator(this.validate)
+    removeResetter(this.reset)
     removeEvaluator(this.evaluate)
-    removeChecker(this.checkValueForEmptiness)
+    removeChecker(this.check)
   }
 
   inputRef = React.createRef()
@@ -285,6 +285,7 @@ export class SimpleInput extends React.Component {
     if (!current) {
       return
     }
+
     switch (current.type) {
       default: {
         return current.value
@@ -305,9 +306,23 @@ export class SimpleInput extends React.Component {
     }
   }
 
+  usesStringValue = () => {
+    const { inputType } = this.props
+    switch (inputType) {
+      case "text":
+      case "email":
+      case "password": {
+        return true
+      }
+      default: {
+        return false
+      }
+    }
+  }
+
   usesBooleanValue = () => {
-    const { current } = this.inputRef
-    return (current.type === "checkbox")
+    const { inputType } = this.props
+    return (inputType === "checkbox")
   }
 
   /**
@@ -320,7 +335,7 @@ export class SimpleInput extends React.Component {
     const originalValue = this.getOriginalValue()
     var sanitizedValue = originalValue
 
-    if (this.usesBooleanValue()) {
+    if (this.usesBooleanValue() === true) {
       return Boolean(sanitizedValue)
     }
 
@@ -345,9 +360,7 @@ export class SimpleInput extends React.Component {
    * Used by evaluate()
    */
   getNormalizedValue = () => {
-    const {
-      onNormalize,
-    } = this.props
+    const { onNormalize } = this.props
 
     var normalizedValue = this.getSanitizedValue()
 
@@ -406,7 +419,7 @@ export class SimpleInput extends React.Component {
    * length, and content, etc. If it does not pass any check, it will display
    * an error and set the validity to false.
    */
-  doesSanitizedValueValidate = () => {
+  validate = () => {
     const {
       inputType,
       onValidate,
@@ -417,10 +430,14 @@ export class SimpleInput extends React.Component {
     } = this.props
 
     const value = this.getSanitizedValue()
+    const usesString = this.usesStringValue()
 
-    if (inputType !== ("checkbox" || "file")) {
+    if (usesString === true) {
       if (this.doesSanitizedValueMeetMinLength(value) === false) {
-        const message = minLengthErrorMessage || `Must be ${minLength} characters or more`
+        const message = (
+          minLengthErrorMessage
+          || `Must be ${minLength} characters or more`
+        )
 
         this.handleSetErrorMessage(message)
         this.handleSetValueValid(false)
@@ -428,7 +445,11 @@ export class SimpleInput extends React.Component {
       }
 
       if (this.doesSanitizedValueMeetMaxLength(value) === false) {
-        const message = maxLengthErrorMessage || `Must be ${maxLength} characters or less`
+        const message = (
+          maxLengthErrorMessage
+          || `Must be ${maxLength} characters or less`
+        )
+
         this.handleSetErrorMessage(message)
         this.handleSetValueValid(false)
         return false
@@ -448,11 +469,11 @@ export class SimpleInput extends React.Component {
     return true
   }
 
-  changeInputValue = () => {
+  updateInputValue = () => {
     const { resetValue, inputValue, isAutoSubmitted, handleFormSubmission } = this.props
 
     if (this.hasSanitizedValue() === true) {
-      if (this.usesBooleanValue()) {
+      if (this.usesBooleanValue() === true) {
         const oldValue = Boolean(inputValue)
         const newValue = !oldValue
         this.handleSetInputValue(newValue)
@@ -461,7 +482,7 @@ export class SimpleInput extends React.Component {
       else {
         const sanitizedValue = this.getSanitizedValue()
         this.handleSetInputValue(sanitizedValue)
-        const isValid = this.doesSanitizedValueValidate()
+        const isValid = this.validate()
         this.handleSetValueValid(isValid)
       }
 
@@ -484,7 +505,7 @@ export class SimpleInput extends React.Component {
    * updated.
    */
   handleInputBlur = event => {
-    this.changeInputValue()
+    this.updateInputValue()
   }
 
   /**
@@ -504,9 +525,7 @@ export class SimpleInput extends React.Component {
   }
 
   handleInputChange = event => {
-    const {
-      onChange,
-    } = this.props
+    const { onChange } = this.props
 
     // Everytime our DOM element's value changes, we want to set the
     // isFormSubmitted state to false, to ensure errors disappear, so the input
@@ -517,7 +536,7 @@ export class SimpleInput extends React.Component {
     // processing, so just do the update here instead of waiting for a blur
     // event.
     if (this.usesBooleanValue()) {
-      this.changeInputValue()
+      this.updateInputValue()
     }
 
     // If we get an onChange handler, its probably for a file input field that
@@ -545,7 +564,7 @@ export class SimpleInput extends React.Component {
     const value = this.getSanitizedValue(event.target)
 
     if (this.hasSanitizedValue(value) === true) {
-      const isValid = this.doesSanitizedValueValidate()
+      const isValid = this.validate()
       this.handleSetValueValid(isValid)
       this.handleSetInputEmpty(false)
     }
@@ -603,7 +622,7 @@ export class SimpleInput extends React.Component {
     } = this.props
 
     if (isFunction(setInputValue)) {
-      if (this.usesBooleanValue() || (inputValue !== value)) {
+      if ((this.usesBooleanValue() === true) || (inputValue !== value)) {
         setInputValue(value)
       }
     }
@@ -649,10 +668,8 @@ export class SimpleInput extends React.Component {
    *
    * Used by SimpleForm when it is submitted.
    */
-  checkValueForEmptiness = () => {
-    const {
-      onCheck,
-    } = this.props
+  check = () => {
+    const { onCheck } = this.props
 
     if (isFunction(onCheck)) {
       return onCheck(this.getSanitizedValue())
@@ -662,7 +679,6 @@ export class SimpleInput extends React.Component {
     // checking for emptiness, we need to use the inverse value fo this check
     // for the result.
     const result = !this.hasSanitizedValue()
-
     this.handleSetInputEmpty(result)
 
     return result
@@ -676,10 +692,7 @@ export class SimpleInput extends React.Component {
    */
   evaluate = () => {
     const { current } = this.inputRef
-    const {
-      inputName,
-      onEvaluate,
-    } = this.props
+    const { inputName, onEvaluate } = this.props
 
     // Normalize the input value to match the format required for the form data
     // object.
@@ -687,7 +700,7 @@ export class SimpleInput extends React.Component {
 
     // When our simple form trys to evaulate any file input fields, it doesnt
     // obtain any value, since the redux action causes a re-render, which
-    // resetInputValues the file input field's value. Any attempt to set this
+    // resets the file input field's value. Any attempt to set this
     // value using value or defaultValue props results in a DOM error.
     if (isFunction(onEvaluate)) {
       return onEvaluate(inputName, normalizedValue, current)
@@ -704,7 +717,7 @@ export class SimpleInput extends React.Component {
    *
    * Used by SimpleForm after form submission is finished.
    */
-  resetInputValue = () => {
+  reset = () => {
     const { isResetSkipped, resetValue } = this.props
     if (isResetSkipped === true) {
       return
@@ -787,7 +800,7 @@ export class SimpleInput extends React.Component {
 
     var finalErrorMessage = errorMessage
     if (isInputEmpty === true) {
-      finalErrorMessage = inputEmptyErrorMessage || "This field is required"
+      finalErrorMessage = (inputEmptyErrorMessage || "This field is required")
     }
 
     return isErrorVisible ? (
@@ -844,23 +857,23 @@ export class SimpleInput extends React.Component {
     if (inputType === "checkbox") {
       rendered = (
         <Input
-          checked={inputValue}
           {...commonProps}
           {...inputProps}
+          checked={inputValue}
         />
       )
     }
     else {
       rendered = (
         <Input
+          {...commonProps}
+          {...nonCheckboxProps}
+          {...inputProps}
           onKeyUp={this.handleInputKeyUp}
           placeholder={inputPlaceholder}
           maxLength={maxLength}
           autoComplete={"off"}
           defaultValue={inputValue}
-          {...commonProps}
-          {...nonCheckboxProps}
-          {...inputProps}
         />
       )
     }
