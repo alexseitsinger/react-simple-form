@@ -1,3 +1,10 @@
+<a name="v3.2.1"></a>
+## [v3.2.1](https://github.com/alexseitsinger/react-simple-form/compare/v3.2.0...v3.2.1) (2019-12-19)
+
+### Bug Fixes
+- Adds fix for early ref use. ([70957fd](https://github.com/alexseitsinger/react-simple-form/commit/70957fd07620b0d3cc6bcb4818da262cfeb6d69c))
+
+
 <a name="v3.2.0"></a>
 ## [v3.2.0](https://github.com/alexseitsinger/react-simple-form/compare/v3.1.0...v3.2.0) (2019-12-19)
 
