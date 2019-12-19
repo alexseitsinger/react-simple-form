@@ -1,3 +1,10 @@
+<a name="v3.1.0"></a>
+## [v3.1.0](https://github.com/alexseitsinger/react-simple-form/compare/v3.0.0...v3.1.0) (2019-12-19)
+
+### Code Refactoring
+- Changes propTypes. ([1c53ace](https://github.com/alexseitsinger/react-simple-form/commit/1c53ace4989b8c88e9da543ea76ad7e1fc61c796))
+
+
 <a name="v3.0.0"></a>
 ## [v3.0.0](https://github.com/alexseitsinger/react-simple-form/compare/v2.0.1...v3.0.0) (2019-12-18)
 
